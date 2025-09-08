@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TodoStatus {
+  PENDING
+  DONE
+}
+
+enum TodoPriority {
+  LOW
+  HIGH
+}
+
+enum PlanType {
+  FREE
+  PRO
+}
+
+enum StatusType {
+  ACTIVE
+  TRIALING
+  EXPIRED
+  CANCELED
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  todos        Todo[]
+  subscription Subscription?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Todo {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title     String
+  description String?
+
+  status    TodoStatus @default(PENDING)
+  priority  TodoPriority @default(LOW)
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  plan      PlanType   @default(FREE)   
+  status    StatusType @default(ACTIVE) 
+  trialEndsAt DateTime?                
+  endDate   DateTime?                  
+  cancelAt  DateTime?                 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
