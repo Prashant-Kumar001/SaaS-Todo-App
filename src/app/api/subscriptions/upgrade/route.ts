@@ -5,18 +5,24 @@ import { ISubscription } from "@/types";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
+  const { plan } = await req.json();
+
+  if (plan !== "Pro")
+    return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+
   if (!userId)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const subscription = (await prisma.subscription.findUnique({
     where: { userId },
   })) as ISubscription | null;
+
   if (!subscription)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const { plan } = await req.json();
-  if (plan !== "Pro")
-    return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+
+  if (subscription.plan === "PRO")
+    return NextResponse.json({ error: "Plan already upgraded" }, { status: 400 });
 
   const endDate = new Date();
   endDate.setMonth(endDate.getMonth() + 1); 

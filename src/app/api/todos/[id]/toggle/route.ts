@@ -14,8 +14,8 @@ export async function PUT(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
         let id
-        const param = await params.id;
-        id = param
+        const param = await params;
+        id = param.id
 
 
 

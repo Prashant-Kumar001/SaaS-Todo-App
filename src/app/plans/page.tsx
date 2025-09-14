@@ -60,7 +60,6 @@ export default function PlansPage() {
     } catch (err: any) {
       setError(err.message || "Failed to upgrade plan");
       toast.error("Failed to upgrade plan");
-      console.error(err);
     } finally {
       setLoading(false);
     }
