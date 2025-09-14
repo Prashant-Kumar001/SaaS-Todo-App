@@ -28,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
         <Providers>
           <body
             className={`${poppins.className} ${inter.variable}  antialiased`}
@@ -38,7 +38,7 @@ export default function RootLayout({
             <Toaster richColors closeButton theme="system" />
           </body>
         </Providers>
-      </ClerkProvider>
-    </html>
+      </html>
+    </ClerkProvider>
   );
 }

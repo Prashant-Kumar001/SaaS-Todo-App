@@ -8,9 +8,6 @@ import {
   LuIdCard,
   LuMail,
   LuUser,
-  LuPlus,
-  LuCircle,
-  LuCheck,
 } from "react-icons/lu";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -20,6 +17,7 @@ import { InfoRow } from "@/components/dashboard/InfoRow";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
+import Loading from "@/components/dashboard/loading.overview";
 
 
 
@@ -40,54 +38,9 @@ export default function OverviewPage() {
 
 
 
-
-
-
-
   if (Global_loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
-        <div className="max-w-4xl mx-auto space-y-5 ">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-1.5 px-3 py-3 bg-white border bottom-2">
-            <div className="flex items-center gap-2">
-              <div className="w-56 h-32 bg-slate-200 rounded animate-pulse"></div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-56 h-32 bg-slate-200 rounded animate-pulse"></div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-56 h-32 bg-slate-200 rounded animate-pulse"></div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 bg-slate-200 rounded animate-pulse"></div>
-                  <div className="h-6 bg-slate-200 rounded-md w-40 animate-pulse"></div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                  <div className="w-4 h-4 bg-slate-200 rounded animate-pulse"></div>
-                  <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-slate-200 rounded w-16 animate-pulse"></div>
-                    <div className="h-4 bg-slate-200 rounded w-48 animate-pulse"></div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                  <div className="w-4 h-4 bg-slate-200 rounded animate-pulse"></div>
-                  <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-slate-200 rounded w-20 animate-pulse"></div>
-                    <div className="h-3 bg-slate-200 rounded w-32 animate-pulse"></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
+      <Loading />
     );
   }
 
@@ -129,12 +82,12 @@ export default function OverviewPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="rounded-2xl border border-slate-200 shadow-sm bg-white">
-          <CardHeader className="pb-3">
+          <CardHeader >
             <CardTitle className="text-slate-800 text-base md:text-lg">
               Clerk info
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-1">
             {!isLoaded ? (
               <div className="space-y-4 animate-pulse motion-reduce:animate-none">
                 <div className="h-6 w-40 rounded bg-slate-200" />
@@ -173,12 +126,12 @@ export default function OverviewPage() {
         </Card>
 
         <Card className="rounded-2xl border border-slate-200 shadow-sm bg-white">
-          <CardHeader className="pb-3">
+          <CardHeader>
             <CardTitle className="text-slate-800 text-base md:text-lg">
-              DB user & subscription
+              subscription
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-1">
             {Global_loading ? (
               <div className="space-y-4 animate-pulse motion-reduce:animate-none">
                 <div className="h-6 w-40 rounded bg-slate-200" />
@@ -188,17 +141,6 @@ export default function OverviewPage() {
               </div>
             ) : User ? (
               <>
-                <InfoRow
-                  icon={<LuMail aria-hidden="true" />}
-                  label="Email"
-                  value={User.email ?? "—"}
-                />
-                <InfoRow
-                  icon={<LuUser aria-hidden="true" />}
-                  label="Name"
-                  value={User.name || "—"}
-                />
-
                 {subscription ? (
                   <>
                     <div className="pt-2 border-t border-slate-100" />

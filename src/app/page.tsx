@@ -23,9 +23,11 @@ import {
 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { useClerk } from '@clerk/nextjs'
 
 const HomePage = () => {
   const { user, isLoaded, isSignedIn } = useUser();
+  const { signOut } = useClerk()
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -36,13 +38,17 @@ const HomePage = () => {
     router.push("/sign-up");
   };
 
+  const handleSignOut = () => {
+    signOut({ redirectUrl: '/' })
+  };
+
   const handleDashboard = () => {
     router.push("/overview");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-     
+
       <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -55,12 +61,24 @@ const HomePage = () => {
 
             <div className="flex items-center space-x-4">
               {isSignedIn ? (
-                <Button
-                  onClick={handleDashboard}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Dashboard
-                </Button>
+                <div className="flex items-center space-x-4">
+
+                  <Button
+                    onClick={handleDashboard}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  >
+                    Dashboard
+                  </Button>
+
+                  <Button
+                    onClick={handleSignOut}
+                    variant="destructive"
+                  >
+                    Log Out
+                  </Button>
+                </div>
+
+
               ) : (
                 <>
                   <Button variant="ghost" onClick={handleSignIn}>
